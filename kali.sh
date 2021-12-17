@@ -55,7 +55,7 @@ _mount_() {
 }
 
 check_if_mounted() {
-	if mount | grep "$1" >/dev/null; then
+	if mount | grep "$1 " >/dev/null; then
 		return 0
 	else
 		return 1
