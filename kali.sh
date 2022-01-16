@@ -2,10 +2,9 @@
 
 #
 # $1 - command
-# $2 - location of the rootfs
 #
 
-rootfs="${2:-rootfs}"
+rootfs="$PWD/rootfs"
 
 declare -A rmount
 declare -A mount
@@ -93,7 +92,11 @@ enter_kali() {
 	# Ensure everything is mounted correctly
 	mount_all
 
-	env -i chroot "$rootfs" bin/bash -l
+	if [ $# -gt 0 ]; then
+		env -i chroot "$rootfs" "$@"
+	else
+		env -i chroot "$rootfs" bin/bash -l
+	fi
 }
 
 case "$1" in
@@ -105,6 +108,6 @@ stop)
 	unmount_all
 	;;
 *)
-	enter_kali
+	enter_kali "$@"
 	;;
 esac
